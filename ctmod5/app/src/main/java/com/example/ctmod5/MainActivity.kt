@@ -16,8 +16,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var imageAdapter: ImageAdapter
     private val images = mutableListOf<GalleryItem>()
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
