@@ -1,70 +1,44 @@
 package com.example.portfolioproject
 
 import android.content.Context
-import android.database.DataSetObserver
-import com.example.portfolioproject.Transaction
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
+import android.widget.ArrayAdapter
+import android.widget.TextView
 
-class TransactionAdapter(private val transactions: Context, transactions1: MutableList<Transaction>) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>(),
-    ListAdapter {
+class TransactionAdapter(context: Context, transaction: MutableList<Transaction>) :
+ArrayAdapter<Transaction>(context, 0, transaction) {
+    private var transactionList: MutableList<Transaction> = transaction
+    private val databaseHelper: DatabaseHelper = DatabaseHelper(context) // Initialize DatabaseHelper
 
-    class TransactionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        // Bind views here
-    }
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        var accountName = ""
+        val itemView = convertView ?: LayoutInflater.from(context)
+            .inflate(R.layout.transaction_item, parent, false)
+        val transaction = getItem(position)
+        // Use databaseHelper to get account name by ID
+        if(transaction?.accountId != null){
+            accountName = if(transaction.accountId is Int){
+                databaseHelper.getAccountName(transaction.accountId)
+            } else {
+                "Account Unknown"
+            }
+        }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
-        // Inflate layout and return ViewHolder
-        return TODO("Provide the return value")
-    }
+        itemView.findViewById<TextView>(R.id.accountName).text = accountName
+        itemView.findViewById<TextView>(R.id.transactionType).text = transaction?.type.toString()
+        itemView.findViewById<TextView>(R.id.transactionDesc).text = transaction?.description.toString()
+        itemView.findViewById<TextView>(R.id.transactionAmount).text = transaction?.amount.toString()
+        itemView.findViewById<TextView>(R.id.transactionBalance).text = transaction?.balance.toString()
 
-    override fun getItemCount(): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
-        // Bind Transaction data to views
-    }
-
-    override fun registerDataSetObserver(observer: DataSetObserver?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun unregisterDataSetObserver(observer: DataSetObserver?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun getCount(): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun getItem(position: Int): Any {
-        TODO("Not yet implemented")
-    }
-
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        TODO("Not yet implemented")
-    }
-
-    override fun getViewTypeCount(): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun isEmpty(): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun areAllItemsEnabled(): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun isEnabled(position: Int): Boolean {
-        TODO("Not yet implemented")
+        return itemView
     }
 
     fun addAll() {
-        TODO("Not yet implemented")
+        transactionList.clear()
+        val transaction = mutableListOf<Transaction>()
+        transactionList.addAll(transaction)
+        notifyDataSetChanged()
     }
 }

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.portfolioproject.DatabaseHelper
@@ -17,6 +18,10 @@ class ProfileFragment : Fragment() {
     private var firstNameEditText: EditText? = null
     private var lastNameEditText: EditText? = null
     private var emailEditText: EditText? = null
+    private var nameTextView: TextView? = null
+    private var emailTextView: TextView? = null
+    private var saveButton: Button? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,14 +29,17 @@ class ProfileFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.activity_profile, container, false)
         databaseHelper = DatabaseHelper(requireContext())
-
         firstNameEditText = view.findViewById(R.id.firstName)
         lastNameEditText = view.findViewById(R.id.lastName)
         emailEditText = view.findViewById(R.id.email)
+        nameTextView = view.findViewById(R.id.nameText)
+        emailTextView = view.findViewById(R.id.emailText)
+        saveButton = view.findViewById(R.id.saveProfileButton)
 
         val saveButton = view.findViewById<Button>(R.id.saveProfileButton)
         saveButton.setOnClickListener {
             saveProfile()
+            saveButton.text = getString(R.string.update)
         }
 
         return view
@@ -51,9 +59,11 @@ class ProfileFragment : Fragment() {
     }
 
     private fun updateUI(firstName: String, lastName: String, email: String) {
-        firstNameEditText?.setText(firstName)
-        lastNameEditText?.setText(lastName)
-        emailEditText?.setText(email)
+        val fullname = "$firstName $lastName"
+        nameTextView?.text = fullname
+        emailTextView?.text = email
+
     }
+
 
 }

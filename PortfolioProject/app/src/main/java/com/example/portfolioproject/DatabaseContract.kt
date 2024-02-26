@@ -15,10 +15,15 @@ object DatabaseContract {
         const val COLUMN_ACCOUNT_TYPE = "account_type"
         const val COLUMN_ACCOUNT_BALANCE = "balance"
 
+        const val TABLE_TRANSACTION_DESC = "transaction_descriptions"
+        const val COLUMN_TRANSACTION_DESCRIPTION = "transaction_desc"
+        const val COLUMN_TRANSACTION_DESCRIPTION_ID = "id"
+
         const val TABLE_TRANSACTIONS = "transactions"
         const val COLUMN_TRANSACTION_ID = "id"
         const val COLUMN_TRANSACTION_ACCOUNT_ID = "accountId"
         const val COLUMN_TRANSACTION_TYPE = "type"
+        const val COLUMN_TRANSACTION_DESC = "description"
         const val COLUMN_TRANSACTION_AMOUNT = "amount"
         const val COLUMN_TRANSACTION_BALANCE = "balance"
         const val COLUMN_TRANSACTION_TIMESTAMP = "timestamp"

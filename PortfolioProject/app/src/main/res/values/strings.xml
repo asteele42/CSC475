@@ -7,8 +7,12 @@
     <string name="last_name">Last Name</string>
     <string name="email">Email</string>
     <string name="save">Save</string>
-    <string name="accountBalance">Account Balance</string>
     <string name="add_account">Add Account</string>
-    <string name="add_transaction_type">Add Transaction Type</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="transactions">Transactions</string>
+    <string name="update">Update</string>
+    <string-array name="dropdown_items">
+        <item>Withdrawal</item>
+        <item>Deposit</item>
+        <!-- Add more options as needed -->
+    </string-array>
 </resources>

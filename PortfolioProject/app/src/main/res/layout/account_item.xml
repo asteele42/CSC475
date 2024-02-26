@@ -4,20 +4,32 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="8dp">
-
+    <!-- First Row -->
     <TextView
         android:id="@+id/accountName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
         android:textSize="16sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/accountBalance"
+        android:id="@+id/accountType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:paddingStart="16dp"
-        android:paddingEnd="8dp" />
-</LinearLayout>
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:layout_marginEnd="120dp"
+        android:textSize="12sp"
+        android:textStyle="italic" />
+
+    <TextView
+            android:id="@+id/accountBalance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:paddingStart="16dp"
+            android:paddingEnd="8dp" />
+    </LinearLayout>

@@ -5,6 +5,7 @@ data class Transaction(
     val id: Int,
     val accountId: Int,
     val type: String,
+    val description: String,
     val amount: Double,
     val balance: Double,
     val timestamp: String

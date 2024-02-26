@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Account Name"
+        android:inputType="text"
         android:autofillHints="" />
 
     <EditText
@@ -17,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Account Type"
+        android:inputType="text"
         android:autofillHints="" />
 
     <EditText

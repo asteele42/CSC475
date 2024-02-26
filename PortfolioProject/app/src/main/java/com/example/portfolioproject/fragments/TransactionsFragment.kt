@@ -1,23 +1,29 @@
 package com.example.portfolioproject.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
+import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import com.example.portfolioproject.TransactionAdapter
 import com.example.portfolioproject.DatabaseHelper
+import com.example.portfolioproject.Settings
 import com.example.portfolioproject.R
+import com.example.portfolioproject.SpinnerAdapter
+import com.example.portfolioproject.TransactionAdapter
 
 class TransactionsFragment : Fragment() {
     private lateinit var databaseHelper: DatabaseHelper
     private lateinit var addTransactionButton: Button
     private lateinit var transactionsListView: ListView
     private var adapter: TransactionAdapter? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,20 +47,38 @@ class TransactionsFragment : Fragment() {
     }
 
     private fun showAddTransactionDialog() {
+        val context: Context = requireContext()
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_add_transaction, null)
         val accountNameInput = dialogView.findViewById<EditText>(R.id.accountNameInput)
-        val transactionTypeInput = dialogView.findViewById<EditText>(R.id.transactionTypeInput)
         val transactionAmount = dialogView.findViewById<EditText>(R.id.transactionAmount)
+        val typeSpinner: Spinner = dialogView.findViewById(R.id.transactionType)
+        val descSpinner: Spinner = dialogView.findViewById(R.id.transactionDescSP)
+        val settings = databaseHelper.getAllTransactionDesc()
+        val adapterSP = SpinnerAdapter(context, settings)
+        descSpinner.adapter = adapterSP
+        val adapter: ArrayAdapter<CharSequence> = ArrayAdapter.createFromResource(
+            context, R.array.dropdown_items, android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+        typeSpinner.adapter = adapter
+        var accountID = 0
+        var balance = 0.0
 
-        context?.let {
+
+        context.let {
             AlertDialog.Builder(it).apply {
                 setView(dialogView)
                 setTitle("Add New Transaction")
                 setPositiveButton("Save") { dialog, _ ->
                     val name = accountNameInput.text.toString()
-                    val type = transactionTypeInput.text.toString()
-                    val balance = transactionAmount.text.toString().toDoubleOrNull() ?: 0.0
-                    databaseHelper.addTransaction(name, type, balance)
+                    val type = typeSpinner.selectedItem.toString()
+                    val settings = descSpinner.selectedItem as Settings
+                    val desc = settings.desc
+                    val amount = transactionAmount.text.toString().toDoubleOrNull() ?: 0.0
+                    accountID = databaseHelper.getAccountID(name)
+                    balance = databaseHelper.calcBalance(accountID, amount, type)
+                    databaseHelper.addTransaction(accountID, type, desc, amount, balance)
                     updateTransactionsList()
                     loadTransactions()
                     dialog.dismiss()
@@ -68,18 +92,14 @@ class TransactionsFragment : Fragment() {
     private fun updateTransactionsList() {
         val updatedTransactions = databaseHelper.getAllTransactions()
         databaseHelper.getAllTransactions()
-        adapter?.clear()
         adapter?.addAll()
         adapter?.notifyDataSetChanged()
     }
 
     private fun loadTransactions() {
         val transactions = databaseHelper.getAllTransactions()
-        adapter = TransactionAdapter(requireContext(), transactions)
+        adapter =  TransactionAdapter(requireContext(), transactions)
         transactionsListView.adapter = adapter
     }
 }
 
-private fun TransactionAdapter?.clear() {
-    TODO("Not yet implemented")
-}

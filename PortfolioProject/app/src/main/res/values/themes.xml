@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <style name="BottomNavigationViewTextAppearance">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/bottom_nav_text_color</item>
+    </style>
     <style name="Theme.PortfolioProject" parent="Theme.AppCompat.Light.DarkActionBar" />
 </resources>
