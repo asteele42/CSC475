@@ -12,7 +12,6 @@ import com.example.portfolioproject.AccountAdapter
 import com.example.portfolioproject.DatabaseHelper
 import com.example.portfolioproject.R
 
-
 class AccountsFragment : Fragment() {
     private lateinit var databaseHelper: DatabaseHelper
     private lateinit var addAccountButton: Button
